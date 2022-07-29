@@ -13,13 +13,13 @@ const AppContext = createContext({
 */
 
 export default function Store({ children }) {
-  const [items, setItems] = useState({});
+  const [items, setItems] = useState([]);
 
   function createItem(item) {
     const temp = [...items];
     temp.push(item);
 
-    setItems(item);
+    setItems(temp);
   }
 
   function getItem(id) {
@@ -34,8 +34,6 @@ export default function Store({ children }) {
     const temp = [...items];
 
     temp[index] = { ...item };
-
-    return true;
   }
 
   return (

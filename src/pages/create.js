@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useAppContext } from "../store/store";
 
-import { Link } from 'react-router-dom';
+import Layout from "../components/layout";
+import { useNavigate } from "react-router-dom";
 
 export default function Create() {
   const [title, setTitle] = useState("");
@@ -12,6 +13,42 @@ export default function Create() {
   const [review, setReview] = useState("");
 
   const store = useAppContext();
+  const navigate = useNavigate();
+
+  const inputStyles = {
+    formContainer: {
+      width: "400px",
+      margin: "0 auto",
+    },
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "5px",
+      margin: "15px 0",
+    },
+    title: {
+      fontSize: "16px",
+      textAlign: "left",
+      color: "white",
+    },
+    input: {
+      padding: "10px",
+      borderRadius: "5px",
+      fontSize: "16px",
+    },
+  };
+
+  const butonStyle = {
+    padding: "15px 20px",
+    minWidth: "200px",
+    border: "none",
+    borderRadius: "5px",
+    backgroundColor: "#1e9638",
+    color: "white",
+    fontWeigth: "bolder",
+    fontSize: "18px",
+    cursor: "pointer",
+  };
 
   function handleChange(e) {
     const name = e.target.name;
@@ -67,54 +104,59 @@ export default function Create() {
 
     //TODO: mandar a registrat el manga
     store.createItem(newManga);
+    navigate(`/view/${newManga.id}`);
   }
 
   return (
-    <div>
-      <Link to='/'>Home</Link>
-      <form onSubmit={handleSubmit}>
-        <div>
-          {/* TITLE */}
-          <div>Title</div>
+    <Layout>
+      <form onSubmit={handleSubmit} style={inputStyles.formContainer}>
+        {/* TITLE */}
+        <div style={inputStyles.container}>
+          <div style={inputStyles.title}>Title</div>
           <input
             type="text"
             name="title"
             onChange={handleChange}
             value={title}
+            style={inputStyles.input}
           />
         </div>
-        <div>
-          {/* AUTHOR */}
-          <div>Author</div>
+        {/* AUTHOR */}
+        <div style={inputStyles.container}>
+          <div style={inputStyles.title}>Author</div>
           <input
             type="text"
             name="author"
             onChange={handleChange}
             value={author}
+            style={inputStyles.input}
           />
         </div>
 
-        <div>
-          {/* COVER */}
-          <div>Cover</div>
+        {/* COVER */}
+        <div style={inputStyles.container}>
+          <div style={inputStyles.title}>Cover</div>
           <input type="file" name="cover" onChange={handleChangeFile} />
-          <div>{!! cover ? <img src={cover} width='200px' alt={title} /> : ''}</div>
+          <div>
+            {!!cover ? <img src={cover} width="200px" alt={title} /> : ""}
+          </div>
         </div>
 
-        <div>
-          {/* AUTHOR */}
-          <div>Introduction</div>
+        {/* AUTHOR */}
+        <div style={inputStyles.container}>
+          <div style={inputStyles.title}>Introduction</div>
           <input
             type="text"
             name="intro"
             onChange={handleChange}
             value={intro}
+            style={inputStyles.input}
           />
         </div>
 
+        {/* COMPLETED */}
         <div>
-          {/* COMPLETED */}
-          <div>Completed</div>
+          <div style={inputStyles.title}>Completed</div>
           <input
             type="checkbox"
             name="completed"
@@ -123,19 +165,20 @@ export default function Create() {
           />
         </div>
 
-        <div>
-          {/* REVIEW */}
-          <div>Review</div>
+        {/* REVIEW */}
+        <div style={inputStyles.container}>
+          <div style={inputStyles.title}>Review</div>
           <input
             type="text"
             name="review"
             onChange={handleChange}
             value={review}
+            style={inputStyles.input}
           />
         </div>
 
-        <input type="submit" value="Register manga" />
+        <input type="submit" value="Register manga" style={butonStyle} />
       </form>
-    </div>
+    </Layout>
   );
 }

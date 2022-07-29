@@ -1,16 +1,24 @@
 import { useAppContext } from "../store/store";
 
-import { Link } from "react-router-dom";
+import Layout from "../components/layout";
+import Manga from "../components/manga";
 
 export default function Index() {
   const store = useAppContext();
 
+  const mangasContainer = {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "10px",
+  };
+
   return (
-    <div>
-      <Link to="/create">Create</Link>
-      {store.items.map((item) => (
-        <div>{item.title}</div>
-      ))}
-    </div>
+    <Layout>
+      <div style={mangasContainer}>
+        {store.items.map((item) => (
+          <Manga key={item.id} item={item} />
+        ))}
+      </div>
+    </Layout>
   );
 }
